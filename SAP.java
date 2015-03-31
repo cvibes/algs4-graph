@@ -33,11 +33,37 @@ public class SAP {
     }
 
     public int length(Iterable<Integer> v, Iterable<Integer> w) {
-        return 0;
+        ST<Integer, Integer> aofv = getAllAncestors(v);
+        ST<Integer, Integer> aofw = getAllAncestors(w);
+        int ans = ancestor(v, w);
+        return aofv.get(ans) + aofw.get(ans);
     }
 
     public int ancestor(Iterable<Integer> v, Iterable<Integer> w) {
-        return 0;
+        ST<Integer, Integer> aofv = getAllAncestors(v);
+        ST<Integer, Integer> aofw = getAllAncestors(w);
+        int ans = -1;
+        int len = 0;
+        for (int a : aofw.keys()) {
+            if (aofv.get(a) != null
+                && (ans == -1 || (aofv.get(a) + aofw.get(a)) < len)) {
+                len = aofv.get(a) + aofw.get(a);
+                ans = a;
+            }
+        }
+        
+        return ans;
+    }
+
+    private ST<Integer, Integer> getAllAncestors(Iterable<Integer> v) {
+        ST<Integer, Integer> aofv = new ST<Integer, Integer>();
+        for (int x : v) {
+            ST<Integer, Integer> aofx = cbfs.ancestors(x);
+            for (int a : aofx.keys())
+                if (aofv.get(a) == null || aofx.get(a) < aofv.get(a))
+                    aofv.put(a, aofx.get(a));
+        }
+        return aofv;
     }
 
     public static void main(String[] args) {

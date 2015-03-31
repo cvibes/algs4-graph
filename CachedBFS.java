@@ -18,7 +18,6 @@ public class CachedBFS
         boolean[] visited = new boolean[V];
         int dist          = 0;
         Queue<Integer> q  = new Queue<Integer>();
-
         visited[s] = true;
         q.enqueue(s);
         q.enqueue(dist);
@@ -26,22 +25,25 @@ public class CachedBFS
         while (!q.isEmpty()) {
             int v = q.dequeue();
             dist  = q.dequeue();
+
             if (st[s].get(v) == null || dist < st[s].get(v))
                 st[s].put(v, dist);
+
             PATH:
-            for (int w : dg.adj(v))
+            for (int w : dg.adj(v)) {
                 if (!visited[w]) {
                     if (marked[w]) {
                         for (int x : st[w].keys())
                             if (st[s].get(x) == null
-                                || (dist + st[w].get(x)) < st[s].get(x))
-                                st[s].put(x, dist + st[w].get(x));
+                                || (dist + 1 + st[w].get(x)) < st[s].get(x))
+                                st[s].put(x, dist + 1 + st[w].get(x));
                         break PATH;
                     }
                     visited[w] = true;
                     q.enqueue(w);
                     q.enqueue(dist + 1);
                 }
+            }
         }
         marked[s] = true;
     }
