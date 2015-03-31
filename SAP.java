@@ -13,8 +13,16 @@ public class SAP {
             if (aofw.get(x) != null
                 && (minDist == -1 || (aofv.get(x) + aofw.get(x)) < minDist))
                     minDist = aofv.get(x) + aofw.get(x);
-        
+
         return minDist;
+    }
+
+    public int length(int v) {
+        throw new NullPointerException();
+    }
+
+    public int length() {
+        throw new NullPointerException();
     }
 
     public int ancestor(int v, int w) {
@@ -32,7 +40,20 @@ public class SAP {
         return ancestor;
     }
 
+    public int ancestor(int v) {
+        throw new NullPointerException();
+    }
+
+    public int ancestor() {
+        throw new NullPointerException();
+    }
+
     public int length(Iterable<Integer> v, Iterable<Integer> w) {
+        if (v == null)
+            throw new NullPointerException();
+        if (w == null)
+            throw new NullPointerException();
+
         ST<Integer, Integer> aofv = getAllAncestors(v);
         ST<Integer, Integer> aofw = getAllAncestors(w);
         int ans = ancestor(v, w);
@@ -40,6 +61,11 @@ public class SAP {
     }
 
     public int ancestor(Iterable<Integer> v, Iterable<Integer> w) {
+        if (v == null)
+            throw new NullPointerException();
+        if (w == null)
+            throw new NullPointerException();
+
         ST<Integer, Integer> aofv = getAllAncestors(v);
         ST<Integer, Integer> aofw = getAllAncestors(w);
         int ans = -1;
@@ -51,7 +77,7 @@ public class SAP {
                 ans = a;
             }
         }
-        
+
         return ans;
     }
 
