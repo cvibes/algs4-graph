@@ -12,8 +12,8 @@ public class CachedBFS
         st     = (ST<Integer, Integer>[]) new ST[V];
         for (int i = 0; i < V; i++)
             st[i] = new ST<Integer, Integer>();
-        for (int i = 0; i < V; i++)
-            bfs(i);
+        // for (int i = 0; i < V; i++)
+        //     bfs(i);
     }
 
     public void bfs(int s) {
@@ -59,8 +59,8 @@ public class CachedBFS
     }
 
     public ST<Integer, Integer> ancestors(int v) {
-        // if (!marked[v])
-        //     bfs(v);
+        if (!marked[v])
+            bfs(v);
         return st[v];
     }
     public String toString() {

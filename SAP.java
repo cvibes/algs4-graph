@@ -45,6 +45,7 @@ public class SAP {
         ST<Integer, Integer> aofv = getAllAncestors(v);
         ST<Integer, Integer> aofw = getAllAncestors(w);
         int ans = ancestor(v, w);
+        if (ans == -1) return -1;
         return aofv.get(ans) + aofw.get(ans);
     }
 

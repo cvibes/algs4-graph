@@ -1,5 +1,4 @@
 public class WordNet {
-    private Bag<String> nouns;
     private ST<String, Boolean> isNoun;
     private ST<String, Bag<Integer>> idOf;
     private ST<Integer, String> syns;
@@ -11,13 +10,12 @@ public class WordNet {
         isNoun = new ST<String, Boolean>();
         idOf   = new ST<String, Bag<Integer>>();
         syns   = new ST<Integer, String>();
-        nouns  = new Bag<String>();
         readSynsets(sin);
         readHypernyms(hin);
     }
 
     public Iterable<String> nouns() {
-        return nouns;
+        return isNoun.keys();
     }
 
     public boolean isNoun(String word) {
@@ -26,14 +24,14 @@ public class WordNet {
 
     public int distance(String nounA, String nounB) {
         if (!isNoun(nounA) || !isNoun(nounB))
-            throw new NullPointerException();
+            throw new IllegalArgumentException();
 
         return sap.length(idOf.get(nounA), idOf.get(nounB));
     }
 
     public String sap(String nounA, String nounB) {
         if (!isNoun(nounA) || !isNoun(nounB))
-            throw new NullPointerException();
+            throw new IllegalArgumentException();
         int ancestor = sap.ancestor(idOf.get(nounA), idOf.get(nounB));
         if (ancestor == -1) return "";
         return syns.get(ancestor);
@@ -41,14 +39,13 @@ public class WordNet {
 
     private void readSynsets(In in) {
         while (in.hasNextLine()) {
-            String line = in.readLine();
-            String[] fields = line.split(",");
-            int id = Integer.parseInt(fields[0]);
+            String line       = in.readLine();
+            String[] fields   = line.split(",");
+            int id            = Integer.parseInt(fields[0]);
             String[] newNouns = fields[1].split(" ");
             syns.put(id, fields[1]);
             for (int i = 0; i < newNouns.length; i++) {
                 String noun = newNouns[i];
-                nouns.add(noun);
                 isNoun.put(noun, true);
                 if (idOf.get(noun) == null)
                     idOf.put(noun, new Bag<Integer>());

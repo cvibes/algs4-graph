@@ -11,23 +11,17 @@ public class Outcast {
         int max      = 0;
         for (int i = 0; i < size; i++) {
             sum[i] = 0;
-            for (int j = 1; j < size; j++) {
+            for (int j = 0; j < size; j++) {
                 if (i == j) continue;
                 int d;
-                if (dist[i][j] != 0) {
-                    d = dist[i][j];
-                    // StdOut.printf("%s *> %s: %d\n", nouns[i], nouns[j], d);
-                }
+                if (dist[i][j] != 0) d = dist[i][j];
                 else {
                     d = wn.distance(nouns[i], nouns[j]);
                     dist[i][j] = d;
                     dist[j][i] = d;
-                    // StdOut.printf("%s -> %s: %d\n", nouns[i], nouns[j], d);
                 }
                 sum[i] += d;
-                // StdOut.printf("sum is now %d\n", sum[i]);
             }
-            // StdOut.printf("total distance for %d is %d\n", i, sum[i]);
             if (sum[i] > sum[max]) max = i;
         }
         return nouns[max];
@@ -35,7 +29,7 @@ public class Outcast {
 
     public static void main(String[] args) {
         if (args.length < 3)
-            throw new NullPointerException();
+            throw new IllegalArgumentException();
         WordNet wn = new WordNet(args[0], args[1]);
         Outcast oc = new Outcast(wn);
         for (int i = 2; i < args.length; i++) {
