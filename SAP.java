@@ -9,20 +9,16 @@ public class SAP {
         ST<Integer, Integer> aofv = cbfs.ancestors(v);
         ST<Integer, Integer> aofw = cbfs.ancestors(w);
         int minDist = -1;
-        for (int x : aofv.keys())
+        for (int x : aofv.keys()) {
+            // StdOut.printf("%d's ancestor %d\n", v, x);
             if (aofw.get(x) != null
-                && (minDist == -1 || (aofv.get(x) + aofw.get(x)) < minDist))
-                    minDist = aofv.get(x) + aofw.get(x);
+                && (minDist == -1 || (aofv.get(x) + aofw.get(x)) < minDist)) {
+                // StdOut.printf("match, distance %d\n", aofw.get(x));
+                minDist = aofv.get(x) + aofw.get(x);
+            }
+        }
 
         return minDist;
-    }
-
-    public int length(int v) {
-        throw new NullPointerException();
-    }
-
-    public int length() {
-        throw new NullPointerException();
     }
 
     public int ancestor(int v, int w) {
@@ -38,14 +34,6 @@ public class SAP {
                 }
         }
         return ancestor;
-    }
-
-    public int ancestor(int v) {
-        throw new NullPointerException();
-    }
-
-    public int ancestor() {
-        throw new NullPointerException();
     }
 
     public int length(Iterable<Integer> v, Iterable<Integer> w) {

@@ -12,9 +12,12 @@ public class CachedBFS
         st     = (ST<Integer, Integer>[]) new ST[V];
         for (int i = 0; i < V; i++)
             st[i] = new ST<Integer, Integer>();
+        for (int i = 0; i < V; i++)
+            bfs(i);
     }
 
     public void bfs(int s) {
+        // StdOut.printf("bfs on %d\n", s);
         boolean[] visited = new boolean[V];
         int dist          = 0;
         Queue<Integer> q  = new Queue<Integer>();
@@ -25,20 +28,27 @@ public class CachedBFS
         while (!q.isEmpty()) {
             int v = q.dequeue();
             dist  = q.dequeue();
-
+            // StdOut.printf("%d with dist %d\n", v, dist);
             if (st[s].get(v) == null || dist < st[s].get(v))
                 st[s].put(v, dist);
 
             PATH:
             for (int w : dg.adj(v)) {
+                // StdOut.printf("  checking adjacent %d... ", w);
                 if (!visited[w]) {
+                    // StdOut.print("new vertex...");
                     if (marked[w]) {
+                        // StdOut.printf(" but marked before\n");
                         for (int x : st[w].keys())
                             if (st[s].get(x) == null
-                                || (dist + 1 + st[w].get(x)) < st[s].get(x))
+                                || (dist + 1 + st[w].get(x)) < st[s].get(x)) {
+                                // StdOut.printf("add ancestor %d with dist %d\n",
+                                //               x, dist + 1 + st[w].get(x));
                                 st[s].put(x, dist + 1 + st[w].get(x));
-                        break PATH;
+                            }
+                        continue PATH;
                     }
+                    // StdOut.printf("not marked, add to queue\n");
                     visited[w] = true;
                     q.enqueue(w);
                     q.enqueue(dist + 1);
@@ -49,8 +59,8 @@ public class CachedBFS
     }
 
     public ST<Integer, Integer> ancestors(int v) {
-        if (!marked[v])
-            bfs(v);
+        // if (!marked[v])
+        //     bfs(v);
         return st[v];
     }
     public String toString() {
@@ -68,9 +78,7 @@ public class CachedBFS
         In in = new In(args[0]);
         Digraph dg = new Digraph(in);
         CachedBFS bfs = new CachedBFS(dg);
-        for (int i = 0; i < dg.V(); i++) {
-            bfs.bfs(i);
-        }
+
         System.out.print(bfs.toString());
     }
 }

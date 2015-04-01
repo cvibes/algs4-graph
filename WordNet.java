@@ -16,14 +16,6 @@ public class WordNet {
         readHypernyms(hin);
     }
 
-    public WordNet(String a) {
-        throw new NullPointerException();
-    }
-
-    public WordNet() {
-        throw new NullPointerException();
-    }
-
     public Iterable<String> nouns() {
         return nouns;
     }
